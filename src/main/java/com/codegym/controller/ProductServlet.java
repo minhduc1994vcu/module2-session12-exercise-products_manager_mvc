@@ -16,6 +16,7 @@ import java.util.List;
 @WebServlet(name = "ProductServlet",urlPatterns = {"/products"})
 public class ProductServlet extends HttpServlet {
     private ProductService productService = new ProductServiceImpl();
+    private static int key = 3;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
@@ -24,15 +25,37 @@ public class ProductServlet extends HttpServlet {
         }
         switch (action) {
             case "create":
+                createProduct(request,response);
                 break;
             case "edit":
                 break;
             case "delete":
                 break;
-            case "search":
-                break;
             default:
                 break;
+        }
+    }
+
+    private void createProduct(HttpServletRequest request, HttpServletResponse response) {
+        int id = ++key;
+        String name = request.getParameter("name");
+        float price = Float.parseFloat(request.getParameter("price"));
+        String description = request.getParameter("description");
+        String producer = request.getParameter("producer");
+
+        Product product = new Product(id, name, price, description, producer);
+
+        productService.save(product);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("product/create.jsp");
+        request.setAttribute("message","New product was added to list.");
+
+        try {
+            dispatcher.forward(request,response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -44,14 +67,13 @@ public class ProductServlet extends HttpServlet {
         }
         switch (action) {
             case "create":
+                showCreatForm(request,response);
                 break;
             case "edit":
                 break;
             case "delete":
                 break;
             case "view":
-                break;
-            case "search":
                 break;
             default:
                 listProducts(request, response);
@@ -60,9 +82,20 @@ public class ProductServlet extends HttpServlet {
     }
 
     private void listProducts(HttpServletRequest request, HttpServletResponse response) {
-        List<Product> products = productService.findAll();
-        request.setAttribute("products", products);
+//        List<Product> products = productService.findAll();
+//        request.setAttribute("products", products);
         RequestDispatcher dispatcher = request.getRequestDispatcher("product/list.jsp");
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showCreatForm(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("product/create.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException e) {
