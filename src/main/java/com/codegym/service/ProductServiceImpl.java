@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void update(int id, Product product) {
-        products.put(id, product);
+        products.replace(id, product);
     }
 
     @Override
