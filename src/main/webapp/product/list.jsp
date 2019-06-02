@@ -1,19 +1,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Product List</title>
+    <title>All Products</title>
 </head>
-<body>
-<h1>Products</h1>
-<p><a href="/products?action=create">Create new product</a></p>
-<table border="1">
+<body style="text-align: center">
+<h1>All Products</h1>
+<button><a href="/products?action=create">Create new product</a></button>
+<%--<button><a href="/products?action=search">Search product by Name</a></button>--%>
+<table border="1" cellpadding="5" align="center" style="margin-top: 20px">
     <tr>
         <td>ID</td>
         <td>Name</td>
         <td>Price</td>
         <td>Description</td>
+        <td>Producer</td>
         <td>Edit</td>
         <td>Delete</td>
     </tr>
